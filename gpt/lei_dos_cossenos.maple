@@ -1,0 +1,67 @@
+restart;
+with(Physics[Vectors]);
+Setup(mathematicalnotation = true);
+
+# NOTE:
+#                _________                 _________
+#       |u_| = v/ <u_, u_>        |v_| = v/ <v_, v_>
+#              _______________
+#  |u_+v_| = v/ <u_+v_, u_+v_>
+#
+#                        2
+#  <u_, u_>       =  |u_|
+#
+#                        2
+#  <v_, v_>       =  |v_|
+#
+#                          2
+#  <u_+v_, u_+v_> =  |u_+v_|
+#
+#  <u_, v_> =  |u_|*|v_|*cos(theta)
+#
+#  <u_+v_, u_+v_> = <u_,u_> + <u_,v_> + <v_,u_> + <v_,v_>
+#  => <u_+v_, u_+v_> = <u_,u_> + <v_,v_> + <u_,v_> + <v_,u_>
+#  => <u_+v_, u_+v_> = <u_,u_> + <v_,v_> + 2*<u_,v_>
+#
+#            2     2       2
+#  => |u_+v_| = |u_| + |v_| + 2*|u_|*|v_|*cos(theta)
+#
+MyVector := proc(ponto)
+    local unit_vectors, i;
+    # Vetores unitários em uma lista
+    unit_vectors := [_i, _j];
+    add(ponto[i] * unit_vectors[i], i = 1 .. nops(ponto));
+end proc:
+
+# Lista de componentes
+u := [2, 3];
+v := [3, 5];
+
+u_ := MyVector(u);
+v_ := MyVector(v);
+
+
+
+# Um versor de um vetor é um vetor unitário que tem a mesma direção e sentido
+# do vetor original, mas com módulo igual a 1. Em outras palavras, o versor de
+# um vetor é uma versão do vetor "normalizada", mantendo apenas a informação
+# de direção e eliminando a informação de magnitude.
+#
+#       u_
+# û =  ----
+#      |u_|
+
+û  := u_/Norm(u_);
+
+# Projeção: projeção de y em u
+#
+#              <y, u>
+# Prj(y, u) =  ------- û
+#                 u
+# (v_.u_)*u_/Norm(u_);
+#
+projecao_de_v_em_u := (v_.u_)*û;
+
+evalf(projecao_de_v_em_u);
+
+# fim
