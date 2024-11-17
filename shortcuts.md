@@ -26,6 +26,9 @@ Ctrl + M     : modo maple
 Ctrl + R     : modo math 2D
 Ctrl + L     : inserir Label
 
+Ctrl + F4    : fecha
+F11          : Modo Tela inteira
+Esc          : Sai do Modo tela inteira
 
 No UBUNTU:
 Ctrl + Alt + -> ou <-: muda entre workspaces
