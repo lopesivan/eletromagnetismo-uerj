@@ -5,10 +5,18 @@ Setup(mathematicalnotation = true);
 #
 #               .X           AB = B - A = u
 #              /             BX = X - B = v
-#   A         /              (uxv) = 0           % u rotacional v
+#   A         /   v_         (u_ x v_) = 0    % u_ rotacional v_
 #   .--------. B
+#      u_
 #
-#
+
+# NOTE:
+#    reta               |      plano
+# ----------------------|-------------------------------
+#   X_ = A + a*u_       |     X_ = A + a*u_ + b*v_
+#   (u_ x v_) = 0       |     <(u_ x v_),X_> + d = 0
+#   <n_, X_> + c = 0    |     <n_, X_> + d = 0
+# ------------------------------------------------------
 
 # Definindo os vetores A, B, r
 A_ := 2*_i + 3*_j + 0*_k;

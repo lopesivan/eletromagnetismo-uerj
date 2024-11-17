@@ -12,6 +12,14 @@ Setup(mathematicalnotation = true);
 #         A . ____________ X
 #
 #
+# NOTE:
+#    reta               |      plano
+# ----------------------|-------------------------------
+#   X_ = A + a*u_       |     X_ = A + a*u_ + b*v_
+#   (u_ x v_) = 0       |     <(u_ x v_),X_> + d = 0
+#   <n_, X_> + c = 0    |     <n_, X_> + d = 0
+# ------------------------------------------------------
+
 
 MyVector := proc(ponto)
     local unit_vectors, i;
