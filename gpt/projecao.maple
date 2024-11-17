@@ -1,0 +1,33 @@
+restart;
+with(Physics[Vectors]);
+Setup(mathematicalnotation = true);
+
+#
+#                      Projecao(y,u) = z
+#         /|
+#     y  / |
+#       /  | w
+#      /   |
+#     /    |
+#    /   z |
+#   . ----->
+#   . -----.----- u
+#
+
+MyVector := proc(ponto)
+    local unit_vectors, i;
+    # Vetores unitários em uma lista
+    unit_vectors := [_i, _j];
+    add(ponto[i] * unit_vectors[i], i = 1 .. nops(ponto));
+end proc:
+
+# Lista de componentes
+u := [2,3];
+y := [3,5];
+
+u_ := MyVector(u);
+y_ := MyVector(y);
+
+vetor_normal_ao_plano := (u_ &x v_);
+
+# fim
