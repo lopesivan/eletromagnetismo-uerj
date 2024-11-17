@@ -41,5 +41,11 @@ vetor_normal_ao_plano := (u_ &x v_);
 # d(A) = - (uxv) . A
 d := - vetor_normal_ao_plano . MyVector(A);
 
-eq_plano:= (u_ &x v_) . x_;
-eq_plano + d;
+eq_plano:= (u_ &x v_) . x_ + d;
+
+# Verificando se os pontos A, B, C pertencem ao plano
+for P in [A, B, C] do
+    verifica := eval(eq_plano, [x = P[1], y = P[2], z = P[3]]):
+    printf("Para o ponto %a em %a = 0\n 0 == %a\n", P, eq_plano, verifica);
+od:
+# fim
