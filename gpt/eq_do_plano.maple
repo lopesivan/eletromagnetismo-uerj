@@ -1,0 +1,45 @@
+restart;
+with(Physics[Vectors]);
+Setup(mathematicalnotation = true);
+
+#
+#     .C         .B           AB = B - A = u
+#      \        /             AC = C - A = v
+#       \      /              (uxv) . X + d = 0
+#        \    /
+#         \  /
+#          \/
+#         A . ____________ X
+#
+#
+
+MyVector := proc(ponto)
+    local unit_vectors, i;
+    # Vetores unitários em uma lista
+    unit_vectors := [_i, _j, _k];
+    add(ponto[i] * unit_vectors[i], i = 1 .. nops(ponto));
+end proc:
+
+# Lista de componentes
+A := [2,3,4];
+B := [3,5,9];
+C := [2,1,0];
+X := [x,y,z];
+
+AB := B - A;
+AC := C - A;
+
+u_ := MyVector(AB);
+v_ := MyVector(AC);
+x_ := MyVector(X);
+
+vetor_normal_ao_plano := (u_ &x v_);
+
+# o valor de d, para o ponto do plano A
+# (uxv) . X + d = 0
+# d = - (uxv) . X
+# d(A) = - (uxv) . A
+d := - vetor_normal_ao_plano . MyVector(A);
+
+eq_plano:= (u_ &x v_) . x_;
+eq_plano + d;
