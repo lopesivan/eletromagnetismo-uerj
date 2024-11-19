@@ -8,3 +8,4 @@
 04-doc.mw : lei de coulomb
             usando a lib:
             with(Student[LinearAlgebra]);
+05-doc.mw : descrição

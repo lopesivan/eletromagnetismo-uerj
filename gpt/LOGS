@@ -24,3 +24,9 @@
             with(Student[LinearAlgebra]);
             interface(displayprecision = 3);
 
+08-exemplo.maple : lei_dos_cossenos
+            usando a lib:
+            with(Student[LinearAlgebra]);
+            * uso da proc  engineering_format(NUMBER) para formatação
+
+
