@@ -8,3 +8,19 @@
             with(Student[LinearAlgebra]);
 
 04-exemplo.maple : equação do plano usando Student[LinearAlgebra]
+05-exemplo.maple :
+            igual o `04-exemplo.maple` com interface(displayprecision = n);
+            Define o número de dígitos significativos, onde n = 3.
+
+
+06-exemplo.maple : lei de coulomb
+            usando a lib:
+            with(Physics[Vectors]);
+            Setup(mathematicalnotation = true);
+            interface(displayprecision = 3);
+
+07-exemplo.maple : lei de coulomb
+            usando a lib:
+            with(Student[LinearAlgebra]);
+            interface(displayprecision = 3);
+
