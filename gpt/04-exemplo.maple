@@ -13,7 +13,7 @@ AC := C - A;
 u_ := < op(AB) >;
 v_ := < op(AC) >;
 
-u_ . u_;
-u_ &x v_;
-
+#u_ . u_;
+N_ := u_ &x v_;
+d  := - N_ . <x,y,z>
 # fim

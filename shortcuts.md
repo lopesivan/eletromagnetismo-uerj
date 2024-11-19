@@ -32,3 +32,5 @@ Esc          : Sai do Modo tela inteira
 
 No UBUNTU:
 Ctrl + Alt + -> ou <-: muda entre workspaces
+Alt + F7             : trava cursor do mouse na janela
+Alt + F10            : toggle entre normal e full screen
