@@ -1,2 +1,10 @@
-03-exemplo.maple : descrição
-04-exemplo.maple : descrição
+01-exemplo.maple : lei de coulomb
+            usando a lib:
+            with(Physics[Vectors]);
+            Setup(mathematicalnotation = true);
+
+03-exemplo.maple : lei de coulomb
+            usando a lib:
+            with(Student[LinearAlgebra]);
+
+04-exemplo.maple : equação do plano usando Student[LinearAlgebra]
