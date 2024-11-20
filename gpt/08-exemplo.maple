@@ -33,7 +33,4 @@ engineering_format(THETA_rad);
 THETA_grad :=THETA_rad*180/Pi;
 engineering_format(THETA_grad);
 
-# Exemplo de uso
-
-
 # fim
