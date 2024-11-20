@@ -1,52 +1,47 @@
 restart;
 with(Student[LinearAlgebra]):
 
-varepsilon__0 := 0.8854*10^(-11);
-lambda := 0.56;
-L := 20;
-h := 12;
-Q := 300;
-y__p := 15;
+ForceAnalysis := proc(y__p)
+    local varepsilon__0, lambda, L, h, Q, F__x, F__y, modulo, angulo_em_graus;
 
-P := [h, y__p];
-r := t -> [0, L*t];
-u := t -> P - r(t);
-u(t);
+    # Constantes
+    varepsilon__0 := 0.8854*10^(-11);
+    lambda := 0.56;
+    L := 20;
+    h := 12;
+    Q := 300;
 
-norma_u := Norm(<op(u(t))>);
-versor_u := <op(u(t))>/norma_u;
+    # Componentes da força
+    F__x := Q*lambda*h/(4*Pi*varepsilon__0) *
+            (y__p/(h^2*sqrt(h^2 + y__p^2)) - (y__p - L)/(h^2*sqrt(h^2 + (y__p - L)^2)));
+    F__x := evalf(F__x);
 
-dF := Q*lambda*L/(4*Pi*varepsilon__0)*versor_u/norma_u^2;
-dF(1);
+    F__y := Q*lambda/(4*Pi*varepsilon__0) *
+            (1/sqrt(h^2 + (y__p - L)^2) - 1/sqrt(h^2 + y__p^2));
+    F__y := evalf(F__y);
 
-F__x := int(dF(1), t = 0 .. 1);
-eval(%);
+    # Módulo e ângulo
+    modulo := sqrt(F__x^2 + F__y^2);
+    angulo_em_graus := 180*arctan(F__y/F__x)/Pi;
 
-F__y := int(dF(2), t = 0 .. 1);
-F := <F__x, F__y>;
-Norm(F);
+    # Retorno
+    return <modulo, angulo_em_graus>;
+end proc:
 
-angulo_em_graus := 180*arctan(F__y/F__x)/Pi;
+y := 15;
+ForceAnalysis(y);
+y := 20;
+ForceAnalysis(y);
+y := 25;
+ForceAnalysis(y);
+y := 78;
+ForceAnalysis(y);
 
-##############################################################################
-
-restart;
-varepsilon__0 := 0.8854*10^(-11);
-lambda := 0.56;
-L := 20;
-h := 12;
-Q := 300;
-y__p := 15;
-
-F__x := Q*lambda*h/(4*Pi*varepsilon__0)*(y__p/(h^2*sqrt(h^2 + y__p^2)) - (y__p - L)/(h^2*sqrt(h^2 + (y__p - L)^2)));
-F__x := evalf(F__x);
-
-F__y := Q*lambda/(4*Pi*varepsilon__0)*(1/sqrt(h^2 + (y__p - L)^2) - 1/sqrt(h^2 + y__p^2));
-F__y := evalf(F__y);
-
-F := <F__x, F__y>;
-modulo := sqrt(F(1)*F(1) + F(2)*F(2));
-angulo_em_graus := 180*arctan(F__y/F__x)/Pi;
-
+y := 0;
+ForceAnalysis(y);
+y := -10;
+ForceAnalysis(y);
+y := -200;
+ForceAnalysis(y);
 
 # fim
