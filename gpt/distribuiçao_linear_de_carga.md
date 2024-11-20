@@ -262,7 +262,7 @@ d\vec{F} = \frac{Q \cdot \lambda \cdot L}{4 \pi \epsilon_0} \cdot \frac{(h, y_p 
    \]
    \[
    dF_y = \frac{Q \cdot \lambda \cdot L}{4 \pi \epsilon_0} \cdot \frac{(y_p - L \cdot t)}{\left[h^2 + (y_p - L \cdot t)^2\right]^{3/2}} \, dt.
-   \] 
+   \]
 
 Se precisar de mais explicações ou ajustes, é só avisar! 😊
 
@@ -421,3 +421,119 @@ F_y = \frac{Q \cdot \lambda}{4 \pi \epsilon_0} \left(\frac{1}{\sqrt{h^2 + (y_p -
 
 Se precisar de mais ajuda ou explicações, é só avisar! 😊
 
+
+
+
+
+
+Descrição: Considerando que a barra de carga linear de densidade λ está
+distribuída ao longo do eixo y (de y=0 a y=L) e que a carga Q está localizada
+no ponto P=(h,L/2) no plano xy
+
+a minha parametrizacao é r(t) = (0, L*t), para 0<=t<=1
+considere dl o infinitesimo de carga dq, logo λ=dq/dl
+a diferencial de força obedece a direcao de u(t) que consite no vetor que
+liga o infinitésimo dl atpe o ponto P, logo u(t)= P - r(t)
+
+	monte a equacao de dF
+
+	Com base na descrição do problema, vamos montar a equação para o diferencial de força \(d\vec{F}\).
+
+---
+
+### 1. **Densidade linear de carga e infinitésimo de carga \(dq\):**
+
+Sabemos que:
+\[
+\lambda = \frac{dq}{dl},
+\]
+o que implica que:
+\[
+dq = \lambda \, dl.
+\]
+
+---
+
+### 2. **Parametrização da curva e diferencial de comprimento \(dl\):**
+
+A parametrização da barra de carga é:
+\[
+\vec{r}(t) = (0, L \cdot t), \quad 0 \leq t \leq 1.
+\]
+
+O diferencial de comprimento é:
+\[
+dl = |\vec{r}'(t)| \, dt.
+\]
+
+Calculando \( \vec{r}'(t) \):
+\[
+\vec{r}'(t) = \frac{d}{dt}(0, L \cdot t) = (0, L).
+\]
+
+Portanto, \( |\vec{r}'(t)| = L \), e o comprimento diferencial é:
+\[
+dl = L \, dt.
+\]
+
+Logo, o infinitésimo de carga é:
+\[
+dq = \lambda \cdot L \, dt.
+\]
+
+---
+
+### 3. **Vetor \( \vec{u}(t) \):**
+
+O vetor que liga o infinitésimo de carga ao ponto \(P = (h, L/2)\) é:
+\[
+\vec{u}(t) = P - \vec{r}(t).
+\]
+
+Substituímos \(P = (h, L/2)\) e \(\vec{r}(t) = (0, L \cdot t)\):
+\[
+\vec{u}(t) = (h, L/2) - (0, L \cdot t) = (h, L/2 - L \cdot t).
+\]
+
+---
+
+### 4. **Módulo de \( \vec{u}(t) \):**
+
+O módulo de \( \vec{u}(t) \) é:
+\[
+u = |\vec{u}(t)| = \sqrt{h^2 + \left(L/2 - L \cdot t\right)^2}.
+\]
+
+---
+
+### 5. **Diferencial de força \(d\vec{F}\):**
+
+A força diferencial é dada pela Lei de Coulomb:
+\[
+d\vec{F} = \frac{1}{4 \pi \epsilon_0} \frac{dq \cdot Q}{u^2} \hat{u}.
+\]
+
+Aqui:
+- \(dq = \lambda \cdot L \, dt\),
+- \(\hat{u} = \frac{\vec{u}(t)}{u}\) é o vetor unitário.
+
+Substituímos:
+\[
+d\vec{F} = \frac{1}{4 \pi \epsilon_0} \frac{\lambda \cdot L \cdot Q \, dt}{u^2} \cdot \frac{\vec{u}(t)}{u}.
+\]
+
+Substituindo \(\vec{u}(t)\) e \(u\):
+\[
+d\vec{F} = \frac{\lambda \cdot L \cdot Q}{4 \pi \epsilon_0} \cdot \frac{(h, L/2 - L \cdot t)}{\left[h^2 + \left(L/2 - L \cdot t\right)^2\right]^{3/2}} \, dt.
+\]
+
+---
+
+### **Resultado final:**
+
+A equação do diferencial de força é:
+\[
+d\vec{F} = \frac{\lambda \cdot L \cdot Q}{4 \pi \epsilon_0} \cdot \frac{(h, L/2 - L \cdot t)}{\left[h^2 + \left(L/2 - L \cdot t\right)^2\right]^{3/2}} \, dt.
+\]
+
+Se precisar de ajuda para resolver as componentes ou calcular integrais, é só avisar! 😊
