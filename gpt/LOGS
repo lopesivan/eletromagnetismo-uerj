@@ -32,4 +32,16 @@
 
 09-exemplo.maple : Eletromagnetismo -
                    Distribuições contínuas de carga - Aula 1.3
+Descrição: Considerando que a barra de carga linear de densidade λ está
+distribuída ao longo do eixo y (de y=0 a y=L) e que a carga Q está localizada
+no ponto P=(h,L/2) no plano xy
 
+10-exemplo.maple : Eletromagnetismo -
+                   Distribuições contínuas de carga - Aula 1.3
+Descrição: Considerando que a barra de carga linear de densidade λ está
+distribuída ao longo do eixo y (de y=0 a y=L) e que a carga Q está localizada
+no ponto P=(h,y__p) no plano xy
+
+
+10-exemplo.maple : descrição
+11-exemplo.maple : descrição
