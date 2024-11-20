@@ -58,3 +58,5 @@ distribuída ao longo do eixo y (de y=0 a y=L) e que a carga Q está localizada
 no ponto P=(h,y__p) no plano xy
 
 	* testando diferentes valores de y__p usando o proc ForceAnalysis(y);
+
+
