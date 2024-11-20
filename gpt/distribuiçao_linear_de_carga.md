@@ -342,3 +342,82 @@ F_x = \frac{Q \cdot \lambda \cdot h}{4 \pi \epsilon_0} \left(\frac{y_p}{h^2 \sqr
 
 Se precisar de ajustes ou explicações adicionais, é só avisar! 😊
 
+
+
+Para calcular \(F_y\) de forma analítica, partimos da equação:
+
+\[
+dF_y = \frac{Q \cdot \lambda \cdot L}{4 \pi \epsilon_0} \cdot \frac{y_p - L \cdot t}{\left[h^2 + (y_p - L \cdot t)^2\right]^{3/2}} \, dt.
+\]
+
+---
+
+### 1. Fatores constantes fora da integral
+Colocamos os fatores constantes fora da integral:
+
+\[
+F_y = \int_0^1 dF_y = \frac{Q \cdot \lambda \cdot L}{4 \pi \epsilon_0} \int_0^1 \frac{y_p - L \cdot t}{\left[h^2 + (y_p - L \cdot t)^2\right]^{3/2}} \, dt.
+\]
+
+---
+
+### 2. Substituição para simplificar a integral
+Definimos:
+\[
+u = y_p - L \cdot t, \quad du = -L \, dt.
+\]
+
+Os limites mudam:
+- Quando \(t = 0\), \(u = y_p\),
+- Quando \(t = 1\), \(u = y_p - L\).
+
+A integral torna-se:
+\[
+F_y = \frac{Q \cdot \lambda \cdot L}{4 \pi \epsilon_0} \int_{y_p}^{y_p - L} \frac{u}{\left(h^2 + u^2\right)^{3/2}} \cdot \frac{-1}{L} \, du.
+\]
+
+O termo \(L\) no denominador cancela com o \(L\) no numerador, e eliminamos o sinal negativo invertendo os limites:
+
+\[
+F_y = \frac{Q \cdot \lambda}{4 \pi \epsilon_0} \int_{y_p - L}^{y_p} \frac{u}{\left(h^2 + u^2\right)^{3/2}} \, du.
+\]
+
+---
+
+### 3. Forma padrão da integral
+A integral a ser resolvida é:
+
+\[
+\int \frac{u}{\left(a^2 + u^2\right)^{3/2}} \, du = -\frac{1}{\sqrt{a^2 + u^2}} + C,
+\]
+onde \(a^2 = h^2\).
+
+---
+
+### 4. Aplicando a solução
+Substituímos o resultado da integral:
+
+\[
+F_y = \frac{Q \cdot \lambda}{4 \pi \epsilon_0} \left[-\frac{1}{\sqrt{h^2 + u^2}}\right]_{u = y_p - L}^{u = y_p}.
+\]
+
+---
+
+### 5. Substituindo os limites
+Substituímos \(u = y_p\) e \(u = y_p - L\):
+
+\[
+F_y = \frac{Q \cdot \lambda}{4 \pi \epsilon_0} \left(-\frac{1}{\sqrt{h^2 + y_p^2}} + \frac{1}{\sqrt{h^2 + (y_p - L)^2}}\right).
+\]
+
+---
+
+### Resultado final
+A força total na direção \(y\) é:
+
+\[
+F_y = \frac{Q \cdot \lambda}{4 \pi \epsilon_0} \left(\frac{1}{\sqrt{h^2 + (y_p - L)^2}} - \frac{1}{\sqrt{h^2 + y_p^2}}\right).
+\]
+
+Se precisar de mais ajuda ou explicações, é só avisar! 😊
+
