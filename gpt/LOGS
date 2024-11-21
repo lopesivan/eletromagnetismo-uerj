@@ -52,7 +52,7 @@ Descrição: Considerando que a barra de carga linear de densidade λ está
 distribuída ao longo do eixo y (de y=0 a y=L) e que a carga Q está localizada
 no ponto P=(h,y__p) no plano xy
 
-13-exemplo.maple : descrição
+13-exemplo.maple :
 Descrição: Considerando que a barra de carga linear de densidade λ está
 distribuída ao longo do eixo y (de y=0 a y=L) e que a carga Q está localizada
 no ponto P=(h,y__p) no plano xy
@@ -60,4 +60,8 @@ no ponto P=(h,y__p) no plano xy
 	* testando diferentes valores de y__p usando o proc ForceAnalysis(y);
 
 
-14-exemplo.maple : descrição
+14-exemplo.maple :
+Descrição: Considerando que a barra de carga linear de densidade λ está
+distribuída ao longo do eixo y (de y=0 a y=L) e que a carga Q está localizada
+no ponto P=(x__p, y__p) no plano xy
+
