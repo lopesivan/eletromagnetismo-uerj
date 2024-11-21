@@ -11,6 +11,3 @@ status:
 
 new:
 	./new.sh
-
-clone:
-	./clone.sh

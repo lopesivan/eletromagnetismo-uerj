@@ -1,0 +1,417 @@
+#!/bin/sh
+
+# Copyright (c) 1996-2021 by Maplesoft, a division of Waterloo Maple Inc.
+# All rights reserved. Unauthorized duplication prohibited.
+# Permission is granted to modify this file to be appropriate
+# for use at the installation for which Maple was purchased.
+
+# This script is used to start the TTY, Java, and X11/Motif versions
+# of Maple.
+
+# maple invokes the command line version of Maple
+# maple -x runs Maple using the Java worksheet
+# maple -cw runs Maple using the classic worksheet
+
+# Set the MAPLE environment variable. This variable is needed both by this
+# script (to find various files), and by the Maple kernel and interface.
+# Change the following line appropriately for your site if you did not
+# install Maple in the directory indicated.
+MAPLE="/opt/maple2021"
+export MAPLE
+
+# Start by determining the system we are running on.
+MAPLE_SYS_BIN=$("$MAPLE/bin/maple.system.type")
+
+# In order to link to MATLAB from within Maple, correct the following path
+# and uncomment the next four lines, or define the environment variable,
+# $MATLAB_BASEDIR outside this script.
+# if [ -z "$MATLAB_BASEDIR" ] ; then
+# MATLAB_BASEDIR=/usr/local/matlab
+# export MATLAB_BASEDIR
+# fi
+
+# Add C++ runtime libraries shipped with Maple to $LD_LIBRARY_PATH.
+# This is needed on the systems that have libstdc++ from g++ older than 4.9.
+# Possible values:
+# auto - check and add version shipped with Maple to $LD_LIBRARY_PATH if needed
+# yes - always add
+# any other value - do nothing
+CPP_RUNTIME=auto
+
+############################################################################
+##                                                                        ##
+##   In general it is not necessary to edit this file beyond this point   ##
+##                                                                        ##
+############################################################################
+
+# Parse all command line parameters. Parameters are collected into kernel
+# and Iris parameters. The special parameter -x is used to start the X
+# Window (Motif) interface.
+PARAM=
+IPARAM=
+JAVAWORKSHEET=
+RUNWORKSHEET=
+MAPLEFLOW=
+MAPLESIM=
+ACTIVATION_PRODUCT_CODE=
+INSTALL=
+DISPLAYARG=""
+JAVAHEAP=512
+CUSTOMHEAP=0
+JAVASTACK=4
+# default
+#JVM_OPTIONS="-Dsun.java2d.pmoffscreen=false -Djogamp.gluegen.UseTempJarCache=false"
+
+# gnome-shell
+#JVM_OPTIONS="-Dsun.java2d.pmoffscreen=false -Djogamp.gluegen.UseTempJarCache=false -Dswing.plaf.metal.userFont=\"Hack Nerd Font Mono-26\" -Dswing.plaf.metal.systemFont=\"Hack Nerd Font Mono-26\" -Dswing.plaf.metal.menuFont=\"Hack Nerd Font Mono-26\" -Dswing.plaf.metal.smallFont=\"Hack Nerd Font Mono-22\" -Dswing.plaf.metal.palettesFont=\"Hack Nerd Font Mono-22\" -Dswing.plaf.metal.controlFont=\"Hack Nerd Font Mono-26\" "
+
+# variaçoes
+#JVM_OPTIONS="-Dsun.java2d.pmoffscreen=false -Dsun.java2d.uiScale=2 -Djogamp.gluegen.UseTempJarCache=false -Dswing.plaf.metal.userFont=\"Hack Nerd Font Mono-26\" -Dswing.plaf.metal.systemFont=\"Hack Nerd Font Mono-26\" -Dswing.plaf.metal.menuFont=\"Hack Nerd Font Mono-26\" -Dswing.plaf.metal.smallFont=\"Hack Nerd Font Mono-22\" -Dswing.plaf.metal.palettesFont=\"Hack Nerd Font Mono-22\" -Dswing.plaf.metal.controlFont=\"Hack Nerd Font Mono-26\" "
+#JVM_OPTIONS="-Dsun.java2d.pmoffscreen=false -Dsun.java2d.uiScale=1.8 -Djogamp.gluegen.UseTempJarCache=false -Dswing.plaf.metal.userFont=\"Hack Nerd Font Mono-20\" -Dswing.plaf.metal.systemFont=\"Hack Nerd Font Mono-20\" -Dswing.plaf.metal.menuFont=\"Hack Nerd Font Mono-20\" -Dswing.plaf.metal.smallFont=\"Hack Nerd Font Mono-16\" -Dswing.plaf.metal.palettesFont=\"Hack Nerd Font Mono-34\" -Dswing.plaf.metal.controlFont=\"Hack Nerd Font Mono-20\" "
+# i3
+JVM_OPTIONS="-Dsun.java2d.pmoffscreen=false -Dsun.java2d.uiScale=1.95 -Djogamp.gluegen.UseTempJarCache=false -Dswing.plaf.metal.userFont=\"Hack Nerd Font Mono-26\" -Dswing.plaf.metal.systemFont=\"Hack Nerd Font Mono-26\" -Dswing.plaf.metal.menuFont=\"Hack Nerd Font Mono-26\" -Dswing.plaf.metal.smallFont=\"Hack Nerd Font Mono-22\" -Dswing.plaf.metal.palettesFont=\"Hack Nerd Font Mono-22\" -Dswing.plaf.metal.controlFont=\"Hack Nerd Font Mono-26\" "
+NORUN=false
+STANDALONE=
+LAUNCHER_APP=
+DIFFTOOL=
+LAUNCHER_ARGS=
+FILES=
+LOCALE=${LOCALE:-""}
+
+while [ $# -ne 0 ]; do
+	case "$1" in
+	-x)
+		JAVAWORKSHEET=1
+		RUNWORKSHEET=
+		;;
+	--helpbrowser)
+		JAVAWORKSHEET=1
+		HELPLAUNCH=1
+		RUNWORKSHEET=
+		;;
+	-execute)
+		RUNWORKSHEET=1
+		;;
+	-mapleflow)
+		if [ ! -f "${MAPLE}/toolbox/MapleFlow/java/MapleFlow.jar" ]; then
+			echo "Maple Flow is not installed"
+			exit 1
+		fi
+		MAPLEFLOW=1
+		STANDALONE=-standalone
+		ACTIVATION_PRODUCT_CODE="-Dapp.product.code='652'"
+		RUNWORKSHEET=
+		;;
+	-maplesim)
+		if [ ! -f "${MAPLE}/toolbox/MapleSim/java/visualmodeler.jar" ]; then
+			echo "MapleSim is not installed"
+			exit 1
+		fi
+		MAPLESIM=1
+		ACTIVATION_PRODUCT_CODE="-Dapp.product.code='662'"
+		RUNWORKSHEET=
+		;;
+	-difftool)
+		if [ ! -f "${MAPLE}/toolbox/MapleSim/java/visualmodeler.jar" ]; then
+			echo "MapleSim is not installed"
+			exit 1
+		fi
+		MAPLESIM=1
+		ACTIVATION_PRODUCT_CODE="-Dapp.product.code='662'"
+		RUNWORKSHEET=
+		DIFFTOOL=1
+		;;
+	-norun)
+		NORUN=true
+		;;
+	-single)
+		IPARAM="-km s"
+		;;
+	-parallel)
+		IPARAM="-km p"
+		;;
+	-d | -display)
+		if [ $# -gt 1 ]; then
+			DISPLAYARG="-d \"$2\""
+			shift
+		else
+			echo "$0: display name required"
+		fi
+		;;
+	-j)
+		JAVAHEAP=512
+		if [ $# -gt 1 ]; then
+			case $2 in
+			-*) ;;
+			*)
+				CUSTOMHEAP=1
+				JAVAHEAP=$2
+				shift
+				;;
+			esac
+		fi
+		;;
+	-MapleViewer)
+		if [ $# = 1 ]; then
+			echo "$0: -MapleViewer option requires a URL"
+			exit 1
+		fi
+		JVM_OPTIONS="${JVM_OPTIONS} -DMapleViewer.url=$2"
+		shift
+		;;
+	-standalone)
+		STANDALONE=$1
+		;;
+	--*)
+		PARAM="$PARAM \"$1\""
+		;;
+	-A | -b | -c | -D | -e | -f | -i | -I | -L | -l | -T | -U | -w)
+		if [ $# -gt 1 ]; then
+			case "$2" in
+			-*)
+				echo "$0: $1 option requires an argument"
+				exit 1
+				;;
+			*)
+				PARAM="$PARAM \"$1\" \"$2\""
+				shift
+				;;
+			esac
+		else
+			echo "$0: $1 option requires an argument"
+			exit 1
+		fi
+		;;
+	-a | -B | -F | -h | -P | -q | -s | -t | -u | -z)
+		PARAM="$PARAM \"$1\""
+		;;
+	*)
+		if [ -f "$1" ]; then
+			FILES="$FILES \"$1\""
+		else
+			PARAM="$PARAM \"$1\""
+		fi
+		;;
+	esac
+	shift
+done
+
+#Add standard maple preprocessor include directory to command line
+INCLUDES="-I \"$MAPLE/lib/include\""
+
+if [ -f "$MAPLE/toolbox/QuantumChemistry/bin/qc.sh" ]; then
+	export QCDIR="$MAPLE/toolbox/QuantumChemistry"
+	. "$QCDIR/bin/qc.sh"
+fi
+
+if [ -f "$HOME/maple/toolbox/2021/QuantumChemistry/bin/qc.sh" ]; then
+	export QCDIR="$HOME/maple/toolbox/2021/QuantumChemistry"
+	. "$QCDIR/bin/qc.sh"
+fi
+
+# Special per-platform processing
+#
+case $MAPLE_SYS_BIN in
+"bin.ARMV7A_HARDFLOAT_LINUX")
+	LD_LIBRARY_PATH="$MAPLE/$MAPLE_SYS_BIN:$LD_LIBRARY_PATH"
+	export LD_LIBRARY_PATH
+	;;
+"bin.X86_64_LINUX")
+	MAPLE_JRE_BIN="$MAPLE/jre.X86_64_LINUX/bin/"
+	JRE_ROOT="$MAPLE/jre.X86_64_LINUX/lib"
+	JRE_LIB1="$JRE_ROOT/amd64"
+	JRE_LIB2="$JRE_ROOT/amd64/server"
+
+	if [ -d "${MAPLE}/toolbox/MapleSim/$MAPLE_SYS_BIN" ]; then
+		MAPLESIM_LD_PATH="${MAPLE}/toolbox/MapleSim/$MAPLE_SYS_BIN"
+	else
+		MAPLESIM_LD_PATH=
+	fi
+
+	LD_LIBRARY_PATH="$MAPLE/$MAPLE_SYS_BIN:$MAPLESIM_LD_PATH:$JRE_LIB1:$JRE_LIB2:$LD_LIBRARY_PATH"
+	export LD_LIBRARY_PATH
+
+	if [ "$CPP_RUNTIME" = "auto" ]; then
+		$MAPLE/$MAPLE_SYS_BIN/cppcheck >/dev/null 2>&1
+		if [ $? -ne 0 ]; then
+			LD_LIBRARY_PATH="$MAPLE/$MAPLE_SYS_BIN/system:$LD_LIBRARY_PATH"
+			export LD_LIBRARY_PATH
+		fi
+	elif [ "$CPP_RUNTIME" = "yes" ]; then
+		LD_LIBRARY_PATH="$MAPLE/$MAPLE_SYS_BIN/system:$LD_LIBRARY_PATH"
+		export LD_LIBRARY_PATH
+	fi
+
+	if [ $CUSTOMHEAP -eq 0 ]; then
+		JAVAHEAP=1024
+	fi
+
+	JAVA_TOOL_OPTIONS=""
+	export JAVA_TOOL_OPTIONS
+
+	;;
+"bin.APPLE_UNIVERSAL_OSX")
+	MAPLE_JRE_BIN="$MAPLE/jre.APPLE_UNIVERSAL_OSX/bin/"
+	JRE_ROOT="$MAPLE/jre.APPLE_UNIVERSAL_OSX/bin/"
+	JRE_LIB1="$JRE_ROOT/server"
+
+	DYLD_LIBRARY_PATH="$MAPLE/$MAPLE_SYS_BIN:$MAPLE/$MAPLE_SYS_BIN/eps_export:$JRE_LIB1:$DYLD_LIBRARY_PATH"
+
+	export DYLD_LIBRARY_PATH
+	VMOPTIONS="-Xdock:icon='$MAPLE/../Resources/LaunchAnywhere.icns' -Xdock:name='Maple 2021'"
+	DLIMIT=$(ulimit -d)
+	if [ "$DLIMIT" = 6144 ]; then
+		ulimit -d unlimited >/dev/null 2>&1 || -d 512000 1>/dev/null 2>&1 || ulimit -d 409600 1>/dev/null 2>&1 || ulimit -d 307200 1>/dev/null 2>&1
+	fi
+	SLIMIT=$(ulimit -s)
+	if [ "$SLIMIT" = 512 ]; then
+		ulimit -s 65536 1>/dev/null 2>&1 || ulimit -s 32768 1>/dev/null 2>&1 || ulimit -s 16384 1>/dev/null 2>&1
+	fi
+
+	if [ $CUSTOMHEAP -ne 0 ]; then
+		JAVAHEAP=1024
+	fi
+
+	if [ -z "$DISPLAY" ]; then
+		DISPLAY=:0.0
+		export DISPLAY
+	fi
+
+	;;
+*) ;;
+esac
+
+# This variable tells Maple's Motif interface where to find its resource
+# file. This should be set even if TTY Maple is being run, as the user
+# might still open a Motif plot window.
+XUSERFILESEARCHPATH="$MAPLE/X11_defaults/Maple"
+export XUSERFILESEARCHPATH
+
+# Set the PATH so that Maple can find its various auxiliary programs.
+if [ "$MAPLE_JRE_BIN" ]; then
+	PATH="$MAPLE_JRE_BIN:$PATH"
+fi
+PATH="$MAPLE/$MAPLE_SYS_BIN:$PATH"
+export PATH
+
+# Start Maple in the desired mode: tty or java worksheet
+if [ "$NORUN" = "true" ]; then
+	:
+elif [ "$JAVAWORKSHEET" -o "$MAPLESIM" -o "$RUNWORKSHEET" -o "$MAPLEFLOW" ]; then
+	if [ ! "$RUNWORKSHEET" ]; then
+		if [ -z "$DISPLAY" ]; then
+			if [ "$MAPLE_SYS_BIN" != "bin.APPLE_UNIVERSAL_OSX" ]; then
+				echo "Error: Can't open display: \"$DISPLAY\""
+				exit 1
+			fi
+		fi
+
+		STARTAPP="com.maplesoft.application.Launcher"
+		if [ -n "$DIFFTOOL" ]; then
+			STARTAPP="com.maplesoft.visualmodeling.diff.DiffTool"
+		fi
+
+		if [ -z "$FILES" ]; then
+			if [ -n "$HELPLAUNCH" ]; then
+				LAUNCHER_APP="-command Start MapleHelp"
+			elif [ -n "$MAPLEFLOW" ]; then
+				LAUNCHER_APP="-command Start MapleFlow"
+			elif [ -n "$MAPLESIM" ]; then
+				if [ -z "$DIFFTOOL" ]; then
+					LAUNCHER_APP="-command Start MapleSim"
+				fi
+			else
+				LAUNCHER_APP="-command Start Maple"
+			fi
+		else
+			if [ -z "$DIFFTOOL" ]; then
+				LAUNCHER_APP="-command Open"
+			fi
+		fi
+
+		if [ ! -z "$PARAM" -o ! -z "$LOCALE" ]; then
+			LAUNCHER_ARGS="-args"
+		fi
+
+	else
+		STARTAPP="com.maplesoft.application.Execute"
+	fi
+
+	WKSCLASSPATH="${MAPLE}/java/*"
+
+	if [ -f "${MAPLE}/toolbox/MapleFlow/java/MapleFlow.jar" ]; then
+		if [ -f "${MAPLE}/toolbox/MapleFlow/license/MapleActivation.jar" ]; then
+			WKSCLASSPATH="${WKSCLASSPATH}:${MAPLE}/toolbox/MapleFlow/license/MapleActivation.jar"
+		fi
+		WKSCLASSPATH="${WKSCLASSPATH}:${MAPLE}/toolbox/MapleFlow/java/*"
+	fi
+
+	if [ -f "${MAPLE}/toolbox/MapleSim/java/visualmodeler.jar" ]; then
+		if [ -f "${MAPLE}/toolbox/MapleSim/license/MapleActivation.jar" ]; then
+			WKSCLASSPATH="${WKSCLASSPATH}:${MAPLE}/toolbox/MapleSim/license/MapleActivation.jar"
+		fi
+		WKSCLASSPATH="${WKSCLASSPATH}:${MAPLE}/toolbox/MapleSim/java/*:${MAPLE}/toolbox/MapleSim/java"
+		MAPLESIM_TEMPLATES="-Dmaplesim.templates='${MAPLE}/toolbox/MapleSim/data/templates'"
+	else
+		MAPLESIM_TEMPLATES=
+	fi
+
+	DLIMIT=$(ulimit -d)
+	if [ $DLIMIT != "unlimited" ]; then
+		if [ $DLIMIT -lt 512000 ]; then
+			ulimit -d unlimited >/dev/null 2>&1 || -d 512000 2>/dev/null || ulimit -d 409600 2>/dev/null || ulimit -d 307200 2>/dev/null || echo "Unable to set the required datalimit.  Maple may not function properly."
+			DLIMIT=$(ulimit -d)
+			if [ $CUSTOMHEAP -ne 0 ]; then
+				JAVAHEAP=$(expr $DLIMIT / 1024 - 50)
+			fi
+		fi
+	fi
+	VLIMIT=$(ulimit -v)
+	if [ $VLIMIT != "unlimited" ]; then
+		if [ $VLIMIT -lt 640000 ]; then
+			ulimit -v 640000 2>/dev/null || ulimit -v 512000 || ulimit -v 409600 2>/dev/null || ulimit -v 307200 2>/dev/null || echo "Unable to set the required virtual memory limit.  Maple may not function properly."
+		fi
+	fi
+
+	echo eval \
+		"'${MAPLE_JRE_BIN}java'" \
+		-Xmx${JAVAHEAP}m \
+		-Xss${JAVASTACK}m \
+		${JVM_OPTIONS} \
+		-cp "'$WKSCLASSPATH'" \
+		"-Dmaple.bin.path='$MAPLE/$MAPLE_SYS_BIN'" \
+		"${VMOPTIONS}" \
+		"$MAPLESIM_TEMPLATES" \
+		$ACTIVATION_PRODUCT_CODE \
+		"$STARTAPP" \
+		$LAUNCHER_APP \
+		$STANDALONE \
+		"$FILES" \
+		$LAUNCHER_ARGS \
+		$PARAM \
+		$LOCALE
+	eval \
+		"'${MAPLE_JRE_BIN}java'" \
+		-Xmx${JAVAHEAP}m \
+		-Xss${JAVASTACK}m \
+		${JVM_OPTIONS} \
+		-cp "'$WKSCLASSPATH'" \
+		"-Dmaple.bin.path='$MAPLE/$MAPLE_SYS_BIN'" \
+		"${VMOPTIONS}" \
+		"$MAPLESIM_TEMPLATES" \
+		$ACTIVATION_PRODUCT_CODE \
+		"$STARTAPP" \
+		$LAUNCHER_APP \
+		$STANDALONE \
+		"$FILES" \
+		$LAUNCHER_ARGS \
+		$PARAM \
+		$LOCALE
+
+else
+	if [ "$IPARAM" ]; then
+		echo "$0: invalid parameters: $IPARAM"
+	else
+		eval exec "'${MAPLE}/$MAPLE_SYS_BIN/cmaple'" $INCLUDES $PARAM $FILES
+	fi
+fi
