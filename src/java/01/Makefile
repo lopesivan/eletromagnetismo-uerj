@@ -22,6 +22,9 @@ run:
 	echo ===3333 $${LD_LIBRARY_PATH}
 	$(JAVA) -cp ".:$(MAPLE_JARS)" Example
 
+debug:
+	gdb --args /opt/maple2021/jre.X86_64_LINUX/bin/java -cp ".:/opt/maple2021/java/externalcall.jar:/opt/maple2021/java/Maple.jar" Example
+
 # Limpeza
 clean:
 	rm -f Example.class

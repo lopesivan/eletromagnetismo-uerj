@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+javac -cp "/opt/maple2021/java/externalcall.jar:/opt/maple2021/java/Maple.jar" Example.java
+
+LD_LIBRARY_PATH=/opt/maple2021/bin.X86_64_LINUX
+LD_LIBRARY_PATH=/opt/maple2021/bin.X86_64_LINUX/AMDK12_4:$LD_LIBRARY_PATH
+LD_LIBRARY_PATH=/opt/maple2021/bin.X86_64_LINUX/AMDK12SSE3_8:$LD_LIBRARY_PATH
+LD_LIBRARY_PATH=/opt/maple2021/bin.X86_64_LINUX/AMDK8SSE3_2:$LD_LIBRARY_PATH
+LD_LIBRARY_PATH=/opt/maple2021/bin.X86_64_LINUX/ATHLONSSE2:$LD_LIBRARY_PATH
+LD_LIBRARY_PATH=/opt/maple2021/bin.X86_64_LINUX/ATHLONSSE2_2:$LD_LIBRARY_PATH
+LD_LIBRARY_PATH=/opt/maple2021/bin.X86_64_LINUX/GENERIC:$LD_LIBRARY_PATH
+LD_LIBRARY_PATH=/opt/maple2021/bin.X86_64_LINUX/PCOREINHMSSE3_4:$LD_LIBRARY_PATH
+LD_LIBRARY_PATH=/opt/maple2021/bin.X86_64_LINUX/PCOREINHMSSE3_8:$LD_LIBRARY_PATH
+LD_LIBRARY_PATH=/opt/maple2021/bin.X86_64_LINUX/system:$LD_LIBRARY_PATH
+LD_LIBRARY_PATH=/opt/maple2021/jre.X86_64_LINUX/lib:$LD_LIBRARY_PATH
+LD_LIBRARY_PATH=/opt/maple2021/jre.X86_64_LINUX/lib/server:$LD_LIBRARY_PATH
+
+(
+	export LD_LIBRARY_PATH
+	export MAPLE=/opt/maple2021
+	java \
+		-cp ".:/opt/maple2021/java/externalcall.jar:/opt/maple2021/java/Maple.jar" \
+		Example
+)
+
+exit 0
