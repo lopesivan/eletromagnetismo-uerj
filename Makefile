@@ -14,3 +14,6 @@ new:
 
 clone:
 	./clone.sh
+
+maple:
+	sudo cp maple /opt/maple2021/bin
