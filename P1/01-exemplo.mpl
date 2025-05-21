@@ -1,3 +1,12 @@
+# exemplo 1.1:
+# Considere três cargas pontuais $Q_a$, $Q_b$
+# e $Q_c$ posicionadas, respectivamente, nos
+# vértices de um triângulo equilátero de lado
+# $a$. Determine, de forma analítica, o vetor
+# força elétrica resultante que atua sobre
+# cada uma das cargas, levando em conta todas as
+# interações de Coulomb entre elas.
+
 read "./libeletromag.mpl";
 with(LinearAlgebra):
 
