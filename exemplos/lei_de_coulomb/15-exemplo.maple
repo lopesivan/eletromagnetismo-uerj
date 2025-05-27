@@ -1,0 +1,23 @@
+restart;
+with(Student[LinearAlgebra]):
+
+varepsilon__0 := 0.8854E-11;
+lambda        := 0.56;
+L             := 20;
+Q             := 300;
+x__p          := 12;
+y__p          := 15;
+
+F__x := Q*lambda*x__p/(4*Pi*varepsilon__0)*(y__p/(x__p^2*sqrt(x__p^2 + y__p^2)) - (y__p - L)/(x__p^2*sqrt(x__p^2 + (y__p - L)^2)));
+F__x := evalf(F__x);
+
+F__y := Q*lambda/(4*Pi*varepsilon__0)*(1/sqrt(x__p^2 + (y__p - L)^2) - 1/sqrt(x__p^2 + y__p^2));
+F__y := evalf(F__y);
+
+F := <F__x, F__y>;
+
+sqrt(F(1)*F(1) + F(2)*F(2));
+
+angulo_em_graus := 180*arctan(F__y/F__x)/Pi;
+
+# fim

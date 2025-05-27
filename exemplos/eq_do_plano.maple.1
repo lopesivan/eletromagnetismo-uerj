@@ -1,0 +1,89 @@
+restart;
+with(Physics[Vectors]):
+Setup(mathematicalnotation = true);
+# 1. To construct this equation, let
+#                               "A_"
+
+# ,
+#                               "B_"
+
+# , and
+#                               "C_"
+
+#  be the vectors pointing to A, B, and C, respectively, and
+#                               "r_"
+
+#  be the position vector of any point of this plane. The differences
+#                            "A_ - C_"
+
+#  and
+#                            "A_ - B_"
+
+#  are vectors parallel to the plane we want to represent, and also the difference between
+#                               "r_"
+
+#   and any of
+#                             "A_, B_"
+
+# , or
+#                               "C_"
+
+#  is a vector parallel to the plane. So the equation of the plane can be obtained by taking the cross product of differences involving
+#                             "A_, B_"
+
+# , and
+#                               "C_"
+
+#  to construct a vector perpendicular to the plane,
+G_ := (A_ - B_) &x (A_ - C_);
+# then equating to zero the scalar product of
+#                               "G_"
+
+#  with any of the differences parallel to the plane involving
+#                               "r_"
+
+# . So for instance, one way of writing this vectorial equation of the plane is
+Eq := (r_ - A_) . G_ = 0;
+# 2. To plot this plane, turn the generic points A, B, and C into concrete points; that is, give values to the components of
+#                             "A_, B_"
+
+# , and
+#                               "C_"
+
+# . For example:
+A_ := 2*_i - 3*_j + _k*4;
+B_ := 5* _i + 4*_j - 7*_k;
+C_ := 30/4* A_ + 90/7*B_;
+
+# For
+#                               "r_"
+
+# we always have
+
+r_ := x*_i + y*_j +z*_k;
+
+# The vectorial equation for these particular points A, B, and C is thus:
+
+Eq;
+
+# As a verification that the surface represented by this equation contains the
+# points A, B, and C, you can substitute in the values of the coordinates of
+# these points and see that the equation is satisfied. These are the coordinates
+# of the three points:
+
+A, B, C := seq([seq(coeff(v, ui), ui=[_i, _j, _k])], v = [A_, B_, C_]);
+
+# This shows that at these points, the equation is satisfied.
+
+for P in [A, B, C] do
+
+eval(Eq, [x = P[1], y = P[2], z = P[3]]);
+od;
+
+# That this surface is a plane is clear from the fact that Eq is linear in all
+# of x, y, and z. One way of plotting this plane is to use the command
+# implicitplot3d.
+
+opts := axes = boxed, scaling = constrained, orientation = [125, 65], style = surface;
+plots[implicitplot3d](Eq, x=-2..2, y=-2..2, z=-2..2, opts);
+

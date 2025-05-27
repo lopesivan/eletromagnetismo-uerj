@@ -1,0 +1,46 @@
+restart;
+with(Physics[Vectors]);
+Setup(mathematicalnotation = true);
+
+#
+#               .X           AB = B - A = u
+#              /             BX = X - B = v
+#   A         /   v_         (u_ x v_) = 0    % u_ rotacional v_
+#   .--------. B
+#      u_
+#
+
+# NOTE:
+#    reta               |      plano
+# ----------------------|-------------------------------
+#   X_ = A + a*u_       |     X_ = A + a*u_ + b*v_
+#   (u_ x v_) = 0       |     <(u_ x v_),X_> + d = 0
+#   <n_, X_> + c = 0    |     <n_, X_> + d = 0
+# ------------------------------------------------------
+
+# Definindo os vetores A, B, r
+A_ := 2*_i + 3*_j + 0*_k;
+B_ := 5*_i + 4*_j + 0*_k;
+X_ := x*_i + y*_j + z*_k;
+
+# Calculando vetores u e v
+u := (B_ - A_);
+v := (X_ - B_);
+
+# Definindo a equação do produto vetorial igual a zero
+eq := u &x v = 0;
+
+# Avaliando a equação para obter as componentes da igualdade a zero
+value(eq);
+
+# Extraindo os coeficientes das componentes i, j, k
+s := map(`=`, [coeffs(lhs(eq), [_i, _j, _k])], 0);
+
+# Resolvendo para y em termos de x
+solucao_y := isolate(s[3]=0, y);
+
+# Definindo y como uma função de x
+f := unapply(rhs(solucao_y), x);
+
+# Exibindo a função y = f(x)
+f(x);

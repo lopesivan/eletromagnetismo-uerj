@@ -1,0 +1,33 @@
+restart:
+with(Student[LinearAlgebra]):
+interface(displayprecision = 3);
+
+varepsilon__0 := 0.8854*10^(-11);
+lambda := 0.56;
+L := 20;
+h := 12;
+Q := 300;
+y__p := 20;
+
+P := [h, y__p];
+r := t -> [0, L*t];
+u := t -> P - r(t);
+
+u(t);
+
+norma_u := Norm(<op(u(t))>);
+versor_u := <op(u(t))>/norma_u;
+
+dF := Q*lambda*L/(4*Pi*varepsilon__0)*versor_u/norma_u^2;
+dF(1);
+
+F__x := int(dF(1), t = 0 .. 1);
+eval(%);
+
+F__y := int(dF(2), t = 0 .. 1);
+
+F := <F__x, F__y>;
+modulo := Norm(F);
+angulo_em_graus := 180*arctan(F__y/F__x)/Pi;
+
+# fim

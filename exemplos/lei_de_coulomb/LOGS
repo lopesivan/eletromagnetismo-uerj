@@ -1,0 +1,68 @@
+01-exemplo.maple : lei de coulomb
+            usando a lib:
+            with(Physics[Vectors]);
+            Setup(mathematicalnotation = true);
+
+03-exemplo.maple : lei de coulomb
+            usando a lib:
+            with(Student[LinearAlgebra]);
+
+04-exemplo.maple : equação do plano usando Student[LinearAlgebra]
+05-exemplo.maple :
+            igual o `04-exemplo.maple` com interface(displayprecision = n);
+            Define o número de dígitos significativos, onde n = 3.
+
+
+06-exemplo.maple : lei de coulomb
+            usando a lib:
+            with(Physics[Vectors]);
+            Setup(mathematicalnotation = true);
+            interface(displayprecision = 3);
+
+07-exemplo.maple : lei de coulomb
+            usando a lib:
+            with(Student[LinearAlgebra]);
+            interface(displayprecision = 3);
+
+08-exemplo.maple : lei_dos_cossenos
+            usando a lib:
+            with(Student[LinearAlgebra]);
+            * uso da proc  engineering_format(NUMBER) para formatação
+
+
+09-exemplo.maple : Eletromagnetismo -
+                   Distribuições contínuas de carga - Aula 1.3
+Descrição: Considerando que a barra de carga linear de densidade λ está
+distribuída ao longo do eixo y (de y=0 a y=L) e que a carga Q está localizada
+no ponto P=(h,L/2) no plano xy
+
+10-exemplo.maple : Eletromagnetismo -
+                   Distribuições contínuas de carga - Aula 1.3
+Descrição: Considerando que a barra de carga linear de densidade λ está
+distribuída ao longo do eixo y (de y=0 a y=L) e que a carga Q está localizada
+no ponto P=(h,y__p) no plano xy
+
+11-exemplo.maple :
+Descrição: Considerando que a barra de carga linear de densidade λ está
+distribuída ao longo do eixo y (de y=0 a y=L) e que a carga Q está localizada
+no ponto P=(h,y__p) no plano xy
+
+12-exemplo.maple :
+Descrição: Considerando que a barra de carga linear de densidade λ está
+distribuída ao longo do eixo y (de y=0 a y=L) e que a carga Q está localizada
+no ponto P=(h,y__p) no plano xy
+
+13-exemplo.maple :
+Descrição: Considerando que a barra de carga linear de densidade λ está
+distribuída ao longo do eixo y (de y=0 a y=L) e que a carga Q está localizada
+no ponto P=(h,y__p) no plano xy
+
+	* testando diferentes valores de y__p usando o proc ForceAnalysis(y);
+
+
+14-exemplo.maple :
+Descrição: Considerando que a barra de carga linear de densidade λ está
+distribuída ao longo do eixo y (de y=0 a y=L) e que a carga Q está localizada
+no ponto P=(x__p, y__p) no plano xy
+
+15-exemplo.maple : descrição
