@@ -7,8 +7,8 @@ ls *-exemplo.mpl |
     while read n; do
         printf -v old "%02d-exemplo.mpl\n" "$n"
         printf -v new "%02d-exemplo.mpl\n" "$((n + 1))"
-        cp $old $new
-        echo $new: descrição | tee -a LOGS
+        echo cp $old $new
+        echo $new: clonado de $old >&2
     done
 
 exit 0
