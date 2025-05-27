@@ -11,16 +11,12 @@ r_            := 2*_i + 6*_j; # vector  ⟨2, 6, 0⟩
 q__1          := 300e-3;      # 0,300 C
 q__2          := 600e-3;      # 0,600 C
 
-Fx := value( F_ . _i ):       # componente x
-Fy := value( F_ . _j ):       # componente y
+Fx       := value( F_ . _i ): # componente x
+Fy       := value( F_ . _j ): # componente y
 
 F_       := evalf(F_);
 Fx       := evalf(Fx);
 Fy       := evalf(Fy);
 modulo_F := Norm(F_);
-
-Fx       := Component( value(F_), 1 );   # ou Component(value(F_),1);
-Fy       := Component( value(F_), 2 );   # ou Component(value(F_),2);
-
 
 # fim
