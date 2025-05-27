@@ -1,0 +1,36 @@
+restart:
+with(Student[LinearAlgebra]):
+interface(displayprecision = 3);
+#interface(prettyprint = 0);
+# Configura a exibição "plana", útil para scripts .mpl
+
+engineering_format := proc(value)
+    printf("%10.3e\n", value);  # Exibe em notação de engenharia com 3 casas decimais
+end proc:
+
+# Lista de componentes
+u := [2, 3];
+v := [3, 5];
+
+u_ := <op(u)>;
+v_ := <op(v)>;
+
+# cos(THETA) = (u_ . v_)/( Norm(u_)*Norm(v_) );
+# Norm(u_)^2 + Norm(v_)^2 + 2*Norm(u_)*Norm(v_)*cos(THETA);
+
+cos_THETA := (u_ . v_)/( Norm(u_)*Norm(v_) );
+R := sqrt(
+           Norm(u_)^2 + Norm(v_)^2 + 2*Norm(u_)*Norm(v_)*cos_THETA
+);
+
+# modulo da resultante
+evalf(R);
+engineering_format(R);
+
+THETA_rad  := arccos(cos_THETA);
+engineering_format(THETA_rad);
+
+THETA_grad :=THETA_rad*180/Pi;
+engineering_format(THETA_grad);
+
+# fim
