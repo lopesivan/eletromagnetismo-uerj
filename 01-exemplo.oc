@@ -1,0 +1,34 @@
+% a.oc - a
+% Maintainer: Ivan Lopes
+
+v = [1/2  0         -1/2;
+     0    sqrt(3)/2  0 ]
+
+
+M = [ 1 1;
+     -1 0;
+	  0 -1];
+
+
+% 1. Diferenças BA e CA
+D = v*M                  % 2×2:  [BA  CA]
+
+% 2. norma (comprimento) de cada coluna
+n  = sqrt(sum(D.^2,1))   % 1×2 vetor |BA| , |CA|
+
+% 3. dividir cada coluna por |·|³
+R = D ./ n.^3            % (broadcasting)  ⇒ [BA/|BA|³  CA/|CA|³]
+
+k  = 7
+Q  = 13
+
+QA = Q
+QB = Q
+QC = Q
+
+Q = k*[QA*QB QA*QC]
+
+R = R .* Q
+
+resposta = sum(R, 2)
+
